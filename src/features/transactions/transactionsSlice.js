@@ -61,6 +61,8 @@ export const { transactionAdded } = transactionsSlice.actions;
 
 export default transactionsSlice.reducer;
 
+export const selectAllTransactions = (state) => state.transactions;
+
 export const selectTransactionByTransactionNumber = (
   state,
   transactionNumber

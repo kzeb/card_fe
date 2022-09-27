@@ -13,9 +13,24 @@ export const AddTransactionForm = () => {
 
   const dispatch = useDispatch();
 
-  const onCardNumberChanged = (e) => setCardNumber(e.target.value);
+  const onCardNumberChanged = (e) => {
+    e.target.value = e.target.value
+      .replace(/[^\dA-Z]/g, "")
+      .replace(/(.{4})/g, "$1 ")
+      .trim();
+    setCardNumber(e.target.value);
+  };
   const onAccountNameChanged = (e) => setAccountName(e.target.value);
-  const onAccountNumberChanged = (e) => setAccountNumber(e.target.value);
+  const onAccountNumberChanged = (e) => {
+    e.target.value = e.target.value
+      .replace(/[^\dA-Z]/g, "")
+      .replace(
+        /(.{2})(.{4})(.{4})(.{4})(.{4})(.{4})(.{4})/g,
+        "$1 $2 $3 $4 $5 $6 $7"
+      )
+      .trim();
+    setAccountNumber(e.target.value);
+  };
   const onRecipientChanged = (e) => setRecipient(e.target.value);
   const onAmountChanged = (e) => setAmount(e.target.value);
   const onCurrencyChanged = (e) => setCurrency(e.target.value);
@@ -65,6 +80,7 @@ export const AddTransactionForm = () => {
           type="text"
           id="cardNumber"
           name="cardNumber"
+          maxLength="19"
           placeholder="Enter Card Number"
           value={cardNumber}
           onChange={onCardNumberChanged}
@@ -83,6 +99,7 @@ export const AddTransactionForm = () => {
           type="text"
           id="accountNumber"
           name="accountNumber"
+          maxLength="31"
           placeholder="Enter Account Number"
           value={accountNumber}
           onChange={onAccountNumberChanged}
@@ -98,7 +115,7 @@ export const AddTransactionForm = () => {
         />
         <label htmlFor="amount">Amount:</label>
         <input
-          type="text"
+          type="number"
           id="amount"
           name="amount"
           placeholder="Enter Amount"
@@ -106,14 +123,11 @@ export const AddTransactionForm = () => {
           onChange={onAmountChanged}
         />
         <label htmlFor="currency">Currency:</label>
-        <input
-          type="text"
-          id="currency"
-          name="currency"
-          placeholder="Enter Currency"
-          value={currency}
-          onChange={onCurrencyChanged}
-        />
+        <select id="currency" value={currency} onChange={onCurrencyChanged}>
+          <option value="PLN">PLN</option>
+          <option value="USD">USD</option>
+          <option value="GBP">GBP</option>
+        </select>
       </form>
       <button
         type="button"
